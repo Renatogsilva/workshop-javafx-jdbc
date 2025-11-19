@@ -1,8 +1,9 @@
 module br.com.workshop.javafx.jdbc.workshopjavafxjdbc {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.graphics;
 
 
-    opens br.com.workshop.javafx.jdbc.workshopjavafxjdbc to javafx.fxml;
-    exports br.com.workshop.javafx.jdbc.workshopjavafxjdbc;
+    opens br.com.workshop.javafx.jdbc.workshopjavafxjdbc.views to javafx.fxml;
+    exports br.com.workshop.javafx.jdbc.workshopjavafxjdbc.views;
 }
