@@ -13,6 +13,8 @@ import javafx.scene.control.TextField;
 import lombok.Setter;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class DepartmentFormController implements Initializable {
@@ -22,6 +24,8 @@ public class DepartmentFormController implements Initializable {
 
     @Setter
     private DepartmentService service;
+
+    private List<DataChangeListner> dataChangeListnerList = new ArrayList<>();
 
     @FXML
     private TextField txtId;
@@ -43,11 +47,12 @@ public class DepartmentFormController implements Initializable {
         if (entity == null)
             throw new IllegalStateException("Entity was null");
 
-        if(service == null)
+        if (service == null)
             throw new IllegalStateException("Service was null");
 
         entity = getFormData();
         service.saveOrUpdate(entity);
+        notifyDataChangeListners();
         Utils.currentStage(actionEvent).close();
     }
 
@@ -73,12 +78,22 @@ public class DepartmentFormController implements Initializable {
         txtName.setText(String.valueOf(entity.getName()));
     }
 
-    public Department getFormData(){
+    public Department getFormData() {
         Department department = new Department();
 
         department.setId(Utils.tryParseToInt(txtId.getText()));
         department.setName(txtName.getText());
 
         return department;
+    }
+
+    public void subcribeDataChangeListner(DataChangeListner dataChangeListner) {
+        dataChangeListnerList.add(dataChangeListner);
+    }
+
+    public void notifyDataChangeListners() {
+        for (DataChangeListner listners : dataChangeListnerList) {
+            listners.onDataChanged();
+        }
     }
 }

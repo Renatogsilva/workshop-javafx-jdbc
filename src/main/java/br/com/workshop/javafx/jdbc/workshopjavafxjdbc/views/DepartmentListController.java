@@ -26,7 +26,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class DepartmentListController implements Initializable {
+public class DepartmentListController implements Initializable, DataChangeListner {
 
     @Setter
     private DepartmentService departmentService;
@@ -86,6 +86,7 @@ public class DepartmentListController implements Initializable {
             departmentFormController.setEntity(department);
             departmentFormController.updateFormData();
             departmentFormController.setService(new DepartmentService());
+            departmentFormController.subcribeDataChangeListner(this);
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Enter department data");
@@ -98,5 +99,10 @@ public class DepartmentListController implements Initializable {
         } catch (IOException e) {
             Alerts.showAlerts("IO Exception", "Error loading new", e.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+
+    @Override
+    public void onDataChanged() {
+        updateTableView();
     }
 }
