@@ -12,4 +12,12 @@ public class DepartmentRepository {
     public List<Department> findAll(){
         return bancoDadosMYSql;
     }
+
+    public void save(Department department){
+        bancoDadosMYSql.add(department);
+    }
+
+    public void update(Department department){
+        bancoDadosMYSql.add(department);
+    }
 }

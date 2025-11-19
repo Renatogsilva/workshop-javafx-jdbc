@@ -6,7 +6,16 @@ import javafx.stage.Stage;
 
 public class Utils {
 
-    public static Stage currentStage(ActionEvent actionEvent){
+    public static Stage currentStage(ActionEvent actionEvent) {
         return (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    }
+
+    public static Integer tryParseToInt(String value) {
+        try {
+            return Integer.parseInt(value);
+
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }

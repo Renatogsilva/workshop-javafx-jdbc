@@ -9,8 +9,14 @@ public class DepartmentService {
 
     private final DepartmentRepository departmentRepository = new DepartmentRepository();
 
-    public List<Department> findAll() {
+    public void saveOrUpdate(Department department) {
+        if (department.getId() == null)
+            departmentRepository.save(department);
+        else
+            departmentRepository.update(department);
+    }
 
+    public List<Department> findAll() {
         return departmentRepository.findAll();
     }
 }
