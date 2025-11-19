@@ -2,17 +2,26 @@ package br.com.workshop.javafx.jdbc.workshopjavafxjdbc.views;
 
 import br.com.workshop.javafx.jdbc.workshopjavafxjdbc.model.Department;
 import br.com.workshop.javafx.jdbc.workshopjavafxjdbc.service.DepartmentService;
+import br.com.workshop.javafx.jdbc.workshopjavafxjdbc.views.util.Alerts;
+import br.com.workshop.javafx.jdbc.workshopjavafxjdbc.views.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Setter;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -34,8 +43,10 @@ public class DepartmentListController implements Initializable {
     private ObservableList<Department> observableList;
 
     @FXML
-    public void onBtNewAction() {
-        System.out.println("CLICOU BEM AQUI VIU...");
+    public void onBtNewAction(ActionEvent actionEvent) {
+        Stage parentStage = Utils.currentStage(actionEvent);
+
+        createDialogForm("DepartmentForm.fxml", parentStage);
     }
 
     @FXML
@@ -64,5 +75,23 @@ public class DepartmentListController implements Initializable {
         observableList = FXCollections.observableArrayList(departmentList);
 
         tableViewDepartmentList.setItems(observableList);
+    }
+
+    private void createDialogForm(String absoluteName, Stage parentStage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+            Pane pane = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Enter department data");
+            dialogStage.setScene(new Scene(pane));
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(parentStage);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            Alerts.showAlerts("IO Exception", "Error loading new", e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 }
