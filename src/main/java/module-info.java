@@ -6,5 +6,6 @@ module br.com.workshop.javafx.jdbc.workshopjavafxjdbc {
 
 
     opens br.com.workshop.javafx.jdbc.workshopjavafxjdbc.views to javafx.fxml;
+    opens br.com.workshop.javafx.jdbc.workshopjavafxjdbc.model to javafx.base;
     exports br.com.workshop.javafx.jdbc.workshopjavafxjdbc.views;
 }
