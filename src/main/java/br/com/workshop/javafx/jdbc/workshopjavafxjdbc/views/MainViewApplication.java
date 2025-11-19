@@ -5,11 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
+import lombok.Getter;
 
 import java.io.IOException;
 
 public class MainViewApplication extends Application {
 
+    @Getter
     private static Scene mainScene;
 
     @Override
@@ -24,9 +26,5 @@ public class MainViewApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(mainScene);
         stage.show();
-    }
-
-    public static Scene getMainScene(){
-        return mainScene;
     }
 }
