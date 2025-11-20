@@ -9,15 +9,19 @@ public class DepartmentRepository {
 
     private static List<Department> bancoDadosMYSql = new ArrayList<>();
 
-    public List<Department> findAll(){
+    public List<Department> findAll() {
         return bancoDadosMYSql;
     }
 
-    public void save(Department department){
+    public void save(Department department) {
         bancoDadosMYSql.add(department);
     }
 
-    public void update(Department department){
+    public void delete(Department department) {
+        bancoDadosMYSql.remove(department);
+    }
+
+    public void update(Department department) {
         bancoDadosMYSql.add(department);
     }
 }

@@ -22,6 +22,7 @@ import lombok.Setter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DepartmentListController implements Initializable, DataChangeListner {
@@ -40,6 +41,9 @@ public class DepartmentListController implements Initializable, DataChangeListne
 
     @FXML
     private TableColumn<Department, Department> tableColumnEdit;
+
+    @FXML
+    private TableColumn<Department, Department> getTableColumnRemove;
 
     private ObservableList<Department> observableList;
 
@@ -77,6 +81,7 @@ public class DepartmentListController implements Initializable, DataChangeListne
 
         tableViewDepartmentList.setItems(observableList);
         initEditButtons();
+        initRemoveButtons();
     }
 
     private void createDialogForm(Department department, String absoluteName, Stage parentStage) {
@@ -126,5 +131,36 @@ public class DepartmentListController implements Initializable, DataChangeListne
                                 obj, "DepartmentForm.fxml", Utils.currentStage(event)));
             }
         });
+    }
+
+    private void initRemoveButtons() {
+        getTableColumnRemove.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+        getTableColumnRemove.setCellFactory(param -> new TableCell<Department, Department>() {
+            private final Button button = new Button("remove");
+
+            @Override
+            protected void updateItem(Department obj, boolean empty) {
+                super.updateItem(obj, empty);
+                if (obj == null) {
+                    setGraphic(null);
+                    return;
+                }
+                setGraphic(button);
+                button.setOnAction(event -> removeEntity(obj));
+            }
+        });
+    }
+
+    private void removeEntity(Department department) {
+        Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure to delete?");
+
+        if (result.get() == ButtonType.OK) {
+            if (departmentService == null) {
+                throw new IllegalStateException("Service was null");
+            }
+
+            departmentService.delete(department);
+            updateTableView();
+        }
     }
 }

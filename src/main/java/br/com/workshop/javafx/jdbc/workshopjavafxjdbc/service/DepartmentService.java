@@ -16,6 +16,10 @@ public class DepartmentService {
             departmentRepository.update(department);
     }
 
+    public void delete(Department department){
+        departmentRepository.delete(department);
+    }
+
     public List<Department> findAll() {
         return departmentRepository.findAll();
     }
