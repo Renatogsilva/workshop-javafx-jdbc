@@ -93,6 +93,7 @@ public class DepartmentListController implements Initializable, DataChangeListne
             departmentFormController.setEntity(department);
             departmentFormController.updateFormData();
             departmentFormController.setService(new DepartmentService());
+            departmentFormController.loadTipoInComboBox();
             departmentFormController.subcribeDataChangeListner(this);
 
             Stage dialogStage = new Stage();
